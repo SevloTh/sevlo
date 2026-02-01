@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sevlo | Cuidado y Belleza</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/jpg" href="imagenes/Logo.jpg">
+
+    <style>
+        /* --- VARIABLES DEL TEMA --- */
+        :root {
+            --color-bg: #FAF7F7;
+            --color-rosa-palo: #EACDC2; 
+            --color-rosa-fuerte: #C69F92;
+            --color-texto: #4A4A4A;
+            --color-blanco: #FFFFFF;
+            --sombra-suave: 0 10px 30px rgba(234, 205, 194, 0.4);
+            
+            --font-titulo: 'Playfair Display', serif;
+            --font-cuerpo: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-texto);
+            font-family: var(--font-cuerpo);
+            line-height: 1.6;
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(to bottom, #fff, var(--color-bg));
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        header h1 {
+            font-family: var(--font-titulo);
+            font-size: 2.5rem;
+            color: var(--color-rosa-fuerte);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #888;
+            font-style: italic;
+            font-family: var(--font-titulo);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h2.titulo-catalogo, h2.titulo-seccion {
+            font-family: var(--font-titulo);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            color: var(--color-texto);
+        }
+
+        h2.titulo-catalogo::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--color-rosa-palo);
+            margin: 10px auto 0;
+        }
+
+        /* --- CARRUSEL (SCROLL SNAP) --- */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            padding: 20px 0;
+            margin-bottom: 4rem;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 2rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Barra de desplazamiento rosa */
+        .carousel::-webkit-scrollbar { height: 8px; }
+        .carousel::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .carousel::-webkit-scrollbar-thumb { background: var(--color-rosa-palo); border-radius: 10px; }
+
+        /* --- TARJETAS DE PRODUCTO --- */
+        .card {
+            flex: 0 0 280px; /* Ancho de la tarjeta */
+            background-color: var(--color-blanco);
+            border-radius: 12px;
+            overflow: hidden;
+            scroll-snap-align: center;
+            box-shadow: var(--sombra-suave);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(234, 205, 194, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        /* MANEJO DE IMÁGENES (Normales y Dobles) */
+        .foto-contenedor, .card > img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            position: relative;
+            display: block;
+        }
+
+        /* Efecto para cuando hay dos fotos */
+        .foto-contenedor img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* La foto 2 está abajo, la 1 arriba. Al hacer hover, la 1 se desvanece */
+        .foto-1 { z-index: 2; opacity: 1; }
+        .foto-2 { z-index: 1; }
+        
+        .card:hover .foto-1 { opacity: 0; }
+
+        .card h3 {
+            font-family: var(--font-titulo);
+            font-size: 1.2rem;
+            margin: 1rem 1rem 0.5rem;
+            text-align: center;
+        }
+
+        .precio {
+            text-align: center;
+            font-weight: bold;
+            color: var(--color-rosa-fuerte);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .boton-comprar {
+            display: block;
+            background-color: var(--color-rosa-palo);
+            color: var(--color-texto);
+            text-decoration: none;
+            padding: 0.8rem;
+            margin: 0 1.5rem 1.5rem;
+            border-radius: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .boton-comprar:hover {
+            background-color: var(--color-rosa-fuerte);
+            color: white;
+        }
+
+        /* --- SECCIÓN CÓMO COMPRAR --- */
+        .como-comprar {
+            background-color: #fff;
+            padding: 3rem 1rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        }
+
+        .pasos-contenedor {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .paso {
+            flex: 1 1 250px;
+            padding: 1rem;
+        }
+
+        .paso span {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: var(--color-rosa-palo);
+            color: var(--color-texto);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: var(--font-titulo);
+            margin-bottom: 1rem;
+        }
+
+        .paso h3 { margin-bottom: 0.5rem; color: var(--color-rosa-fuerte); }
+        .paso p { font-size: 0.95rem; color: #666; }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            margin-top: 3rem;
+            color: #888;
+            border-top: 1px solid var(--color-rosa-palo);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="imagenes/Logo.jpg" alt="Logo Sevlo" class="logo">
+    <h1>SEVLO</h1>
+    <p>Cuidado y Belleza</p>
+</header>
+
+<main>
+    <h2 class="titulo-catalogo">Nuestro Catálogo</h2>
+    
+    <div class="carousel-wrapper">
+        <div class="carousel">
+
+            <div class="card">
+                <div class="foto-contenedor">
+                    <img src="imagenes/serum nicotinamida.jpeg" class="foto-1" alt="Nicotinamida Frente">
+                    <img src="imagenes/nicotinamida2.jpeg" class="foto-2" alt="Nicotinamida Detalle">
+                </div>
+                <h3>Serum de Nicotinamida</h3>
+                <p class="precio">$50.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20serum%20de%20nicotinamida" class="boton-comprar" target="_blank">
+                    Pedir por WhatsApp
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="foto-contenedor">
+                    <img src="imagenes/Serum curcuma7.jpeg" class="foto-1" alt="Cúrcuma Frente">
+                    <img src="imagenes/curcuma 2.jpeg" class="foto-2" alt="Cúrcuma Detalle">
+                </div>
+                <h3>Serum de Cúrcuma</h3>
+                <p class="precio">$50.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20serum%20de%20curcuma" class="boton-comprar" target="_blank">
+                    Pedir por WhatsApp
+                </a>
+            </div>
+
+            <div class="card">
+                <img src="imagenes/shampoo romero.jpeg" alt="Shampoo de Romero">
+                <h3>Shampoo de Romero</h3>
+                <p class="precio">$80.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20shampoo%20de%20romero" class="boton-comprar" target="_blank">Pedir por WhatsApp</a>
+            </div>
+
+            <div class="card">
+                <img src="imagenes/shampoo.jpeg" alt="Shampoo Rapunzel">
+                <h3>Shampoo Rapunzel</h3>
+                <p class="precio">$80.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20shampoo%20rapunzel" class="boton-comprar" target="_blank">Pedir por WhatsApp</a>
+            </div>
+
+            <div class="card">
+                <img src="imagenes/Acondiconador.jpeg" alt="Acondicionador Rapunzel">
+                <h3>Acondicionador</h3>
+                <p class="precio">$80.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20acondicionador" class="boton-comprar" target="_blank">Pedir por WhatsApp</a>
+            </div>
+
+            <div class="card">
+                <img src="imagenes/Tonico.jpeg" alt="Tónico de Rizos">
+                <h3>Tónico de Rizos</h3>
+                <p class="precio">$60.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20tonico" class="boton-comprar" target="_blank">Pedir por WhatsApp</a>
+            </div>
+
+            <div class="card">
+                <img src="imagenes/cera en barra.jpeg" alt="Cera en Barra">
+                <h3>Cera en Barra</h3>
+                <p class="precio">$50.00</p>
+                <a href="https://wa.me/+525551725689?text=Hola%20Sevlo,%20me%20interesa%20la%20cera" class="boton-comprar" target="_blank">Pedir por WhatsApp</a>
+            </div>
+
+            <div class="card">
+                <div class="foto-contenedor">
+                    <img src="imagenes/agua camelias.jpeg" class="foto-1" alt="Agua de Camelias Frente">
+                    <img src="imagenes/camelias.jpeg" class="foto-2" alt="Agua de Camelias Detalle">
+                </div>
+                <h3>Agua de Camelias</h3>
+                <p class="precio">$80.00</p>
+                <a href="https://wa.me/525551725689?text=Hola%20Sevlo,%20me%20interesa%20el%20Agua%20de%20camelias" class="boton-comprar" target="_blank">
+                    Pedir por WhatsApp
+                </a>
+            </div>
+
+        </div> </div> <section class="como-comprar">
+        <h2 class="titulo-seccion">¿Cómo hacer tu pedido?</h2>
+        
+        <div class="pasos-contenedor">
+            <div class="paso">
+                <span>1</span>
+                <h3>Elige tu favorito</h3>
+                <p>Desliza nuestro catálogo y selecciona los cosméticos que más te gusten.</p>
+            </div>
+
+            <div class="paso">
+                <span>2</span>
+                <h3>Mándanos WhatsApp</h3>
+                <p>Dale clic al botón de "Pedir" para coordinar existencias y total de tu compra.</p>
+            </div>
+
+            <div class="paso">
+                <span>3</span>
+                <h3>Entrega en CDMX</h3>
+                <p>Acordamos un punto medio o estación del Metro para entregarte personalmente.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Contacto: <strong>@sevlo_cuidado_y_belleza</strong></p>
+    <p style="font-size: 0.8rem; margin-top: 10px;">Diseñado para resaltar tu belleza natural.</p>
+</footer>
+
+</body>
+</html>
